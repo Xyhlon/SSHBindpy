@@ -2,6 +2,11 @@
 name = "sshbind-wrapper-python"
 version = "0.0.1"
 edition = "2021"
+license = "MIT"
+authors = ["Maximilian Philipp <maxkon2000@gmail.com>"]
+readme = "README.md"
+homepage = "https://github.com/Xyhlon/SSHBindpy"
+repository = "https://github.com/Xyhlon/SSHBindpy"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [lib]
