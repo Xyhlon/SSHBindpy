@@ -8,7 +8,7 @@
   pkg-config,
 }:
 buildPythonPackage rec {
-  pname = "sshbindpy";
+  pname = "sshbind";
   version = "0.0.1";
   pyproject = true;
 
