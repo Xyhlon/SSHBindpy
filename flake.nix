@@ -77,7 +77,7 @@
         });
 
       # Build the python package from the crate
-      sshbind = pkgs.python3Packages.callPackage ./maturin.nix {};
+      sshbind = pkgs.python3Packages.callPackage ./sshbind.nix {};
     in {
       checks = {
         # Build the crate as part of `nix flake check` for convenience
