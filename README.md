@@ -123,7 +123,7 @@ To publish sshbind using maturin:
 
 **Publish Using Maturin:**
    ```bash
-   maturin publish --release
+   maturin publish
    ```
 
 ## Developer Dependencies
