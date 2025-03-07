@@ -24,6 +24,6 @@ buildPythonPackage rec {
   propagatedBuildInputs = [openssl sops];
 
   pythonImportsCheck = [
-    "SSHBindpy"
+    "sshbind"
   ];
 }

@@ -3,7 +3,7 @@ requires = ["maturin>=1.8,<2.0"]
 build-backend = "maturin"
 
 [project]
-name = "SSHBindpy"
+name = "sshbind"
 version = "0.0.1"
 requires-python = ">=3.8"
 classifiers = [
@@ -13,5 +13,5 @@ classifiers = [
 ]
 [tool.maturin]
 python-source = "python"
-module-name = "SSHBindpy._lib_name"
+module-name = "sshbind._lib_name"
 features = ["pyo3/extension-module"]
