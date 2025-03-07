@@ -15,8 +15,8 @@ fn unbind(addr: &str) -> PyResult<()> {
 
 /// A Python module implemented in Rust.
 #[pymodule]
-#[pyo3(name = "_lib_name")]
-fn SSHBindpy(m: &Bound<'_, PyModule>) -> PyResult<()> {
+#[pyo3(name = "_lib_sshbind_wrapper")]
+fn wrapper_module(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(bind, m)?)?;
     m.add_function(wrap_pyfunction!(unbind, m)?)?;
     Ok(())

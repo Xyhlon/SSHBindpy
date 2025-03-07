@@ -1,5 +1,5 @@
 # from ._lib_name import bind, unbind
-from ._lib_name import bind as _bind, unbind as _unbind
+from ._lib_sshbind_wrapper import bind as _bind, unbind as _unbind
 
 from contextlib import (
     AbstractContextManager as _AbstractContextManager,

@@ -13,5 +13,5 @@ classifiers = [
 ]
 [tool.maturin]
 python-source = "python"
-module-name = "sshbind._lib_name"
+module-name = "sshbind._lib_sshbind_wrapper"
 features = ["pyo3/extension-module"]

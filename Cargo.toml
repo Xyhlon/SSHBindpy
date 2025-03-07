@@ -1,11 +1,11 @@
 [package]
-name = "SSHBindpy"
+name = "sshbind-wrapper-python"
 version = "0.0.1"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [lib]
-name = "SSHBindpy"
+name = "sshbind_wrapper_python"
 crate-type = ["cdylib"]
 
 [dependencies]

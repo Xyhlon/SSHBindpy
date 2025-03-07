@@ -16,7 +16,7 @@ buildPythonPackage rec {
 
   cargoDeps = rustPlatform.fetchCargoVendor {
     inherit pname version src;
-    hash = "sha256-2YcdX5j2gpEBwCcxtTXBg1bssu7iqQAsHbfHFdO8h6k=";
+    hash = "sha256-vdIgvGKtzUfZSSImiJq1B1tFqOiWeOMI0hTFpki/09I=";
   };
 
   nativeBuildInputs = with rustPlatform; [cargoSetupHook maturinBuildHook] ++ [openssl pkg-config];

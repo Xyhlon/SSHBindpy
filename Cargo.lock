@@ -3,14 +3,6 @@
 version = 4
 
 [[package]]
-name = "SSHBindpy"
-version = "0.0.1"
-dependencies = [
- "pyo3",
- "sshbind",
-]
-
-[[package]]
 name = "addr2line"
 version = "0.24.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -926,6 +918,14 @@ dependencies = [
  "serde_yml",
  "tokio",
  "tokio-util",
+]
+
+[[package]]
+name = "sshbind-wrapper-python"
+version = "0.0.1"
+dependencies = [
+ "pyo3",
+ "sshbind",
 ]
 
 [[package]]
