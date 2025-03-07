@@ -1,5 +1,6 @@
 # from ._lib_name import bind, unbind
 from ._lib_sshbind_wrapper import bind as _bind, unbind as _unbind
+from typing import List
 
 from contextlib import (
     AbstractContextManager as _AbstractContextManager,
@@ -13,7 +14,9 @@ class SSHBinding(_AbstractContextManager, _ContextDecorator):
     and ensures unbinding upon exit.
     """
 
-    def __init__(self, addr: str, jump_hosts: list, remote_addr: str, sopsfile: str):
+    def __init__(
+        self, addr: str, jump_hosts: List[str], remote_addr: str, sopsfile: str
+    ):
         self.addr = addr
         self.jump_hosts = jump_hosts
         self.remote_addr = remote_addr
