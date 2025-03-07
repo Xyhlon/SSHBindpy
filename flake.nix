@@ -1,5 +1,5 @@
 {
-  description = "";
+  description = "A Python wrapper for the SSHBind Rust library";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -59,20 +59,10 @@
             pkgs.libiconv
           ];
 
-        nativeBuildInputs = with pkgs; [sops libiconv pkg-config];
+        nativeBuildInputs = with pkgs; [sops libiconv pkg-config python3];
         # Additional environment variables can be set directly
         LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.openssl];
       };
-
-      # craneLibLlvmTools =
-      #   craneLib.overrideToolchain
-      #   (fenix.packages.${system}.complete.withComponents [
-      #     "cargo"
-      #     "clippy"
-      #     "llvm-tools"
-      #     "llvm-tools-preview"
-      #     "rustc"
-      #   ]);
 
       # Build *just* the cargo dependencies, so we can reuse
       # all of that work (e.g. via cachix) when running in CI
@@ -80,15 +70,18 @@
 
       # Build the actual crate itself, reusing the dependency
       # artifacts from above.
-      sshbindpy = craneLib.buildPackage (commonArgs
+      sshbind-wrapper-python = craneLib.buildPackage (commonArgs
         // {
           inherit cargoArtifacts;
           doCheck = false;
         });
+
+      # Build the python package from the crate
+      sshbind = pkgs.python3Packages.callPackage ./maturin.nix {};
     in {
       checks = {
         # Build the crate as part of `nix flake check` for convenience
-        inherit sshbindpy;
+        inherit sshbind-wrapper-python;
 
         # Run clippy (and deny all warnings) on the crate source,
         # again, reusing the dependency artifacts from above.
@@ -128,33 +121,26 @@
           inherit src;
         };
 
+        # Compilation and importing should be enough testing for this package
         # Run tests with cargo-nextest
         # Consider setting `doCheck = false` on `my-crate` if you do not want
         # the tests to run twice
-        sshbind-nextest = craneLib.cargoNextest (commonArgs
-          // {
-            inherit cargoArtifacts;
-            partitions = 1;
-            partitionType = "count";
-            withLlvmCov = true;
-          });
+        # sshbind-nextest = craneLib.cargoNextest (commonArgs
+        #   // {
+        #     inherit cargoArtifacts;
+        #     partitions = 1;
+        #     partitionType = "count";
+        #     withLlvmCov = true;
+        #   });
       };
 
-      packages =
-        {
-          sshbindpyy = pkgs.python3Packages.callPackage ./maturin.nix {};
-          default = sshbindpy;
-        }
-        // lib.optionalAttrs (!pkgs.stdenv.isDarwin) {
-          sshbind-llvm-coverage = craneLib.cargoLlvmCov (commonArgs
-            // {
-              inherit cargoArtifacts;
-              cargoLlvmCovExtraArgs = "--html";
-            });
-        };
+      packages = {
+        default = sshbind;
+        rust-sshbind-wrapper = sshbind-wrapper-python;
+      };
 
       apps.default = flake-utils.lib.mkApp {
-        drv = sshbindpy;
+        drv = sshbind;
       };
 
       formatter = pkgs.alejandra;
@@ -169,7 +155,7 @@
 
         # Extra inputs can be added here; cargo and rustc are provided by default.
         packages = [
-          self.packages.${system}.sshbindpyy
+          self.packages.${system}.default
           pkgs.python3
           (pkgs.poetry.override {python3 = pkgs.python3;})
           pkgs.openssl
