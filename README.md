@@ -119,12 +119,7 @@ Then build the package as described above.
 
 ### Publishing the Package
 
-To publish sshbind using maturin:
-
-**Publish Using Maturin:**
-   ```bash
-   maturin publish
-   ```
+Tag a commit and the CI will publish it.
 
 ## Developer Dependencies
 

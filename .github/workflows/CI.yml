@@ -183,25 +183,6 @@ jobs:
       - name: Publish to PyPI
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
         uses: PyO3/maturin-action@v1
-        # env:
-        #   MATURIN_PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
         with:
           command: upload
           args: --non-interactive --skip-existing wheels-*/*
-    # steps:
-    #   - uses: actions/download-artifact@v4
-    #     with:
-    #       path: dist/
-    #       merge-multiple: true
-    #   - run: ls -halt dist/
-    #   - run: rm -vf dist/.gitignore  # https://github.com/astral-sh/uv/issues/11652
-    #   - uses: pypa/gh-action-pypi-publish@release/v1
-    #     with:
-    #       repository-url: https://test.pypi.org/legacy/
-    #       skip-existing: true
-    #       verbose: true
-    #   - run: rm -f dist/*.attestation  # should I parametrise release instead?
-    #   - uses: pypa/gh-action-pypi-publish@release/v1
-    #     with:
-    #       skip-existing: true
-    #       verbose: true
