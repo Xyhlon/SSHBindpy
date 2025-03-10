@@ -20,6 +20,8 @@
     };
 
     statix.url = "github:oppiliappan/statix";
+
+    pre-commit-hooks.url = "github:cachix/git-hooks.nix";
   };
 
   outputs = {
@@ -30,10 +32,13 @@
     flake-utils,
     advisory-db,
     statix,
+    pre-commit-hooks,
     ...
   }:
     flake-utils.lib.eachDefaultSystem (system: let
-      pkgs = nixpkgs.legacyPackages.${system}.extend statix.overlays.default;
+      overlay = import ./overlay.nix;
+
+      pkgs = (nixpkgs.legacyPackages.${system}.extend statix.overlays.default).extend overlay;
 
       inherit (pkgs) lib;
 
@@ -59,7 +64,7 @@
             pkgs.libiconv
           ];
 
-        nativeBuildInputs = with pkgs; [sops libiconv pkg-config python3 perl];
+        nativeBuildInputs = with pkgs; [sops libiconv pkg-config perl];
         # Additional environment variables can be set directly
         LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.openssl];
       };
@@ -77,7 +82,7 @@
         });
 
       # Build the python package from the crate
-      sshbind = pkgs.python3Packages.callPackage ./sshbind.nix {};
+      sshbind = pkgs.python3Packages.callPackage ./. {};
     in {
       checks = {
         # Build the crate as part of `nix flake check` for convenience
@@ -121,6 +126,16 @@
           inherit src;
         };
 
+        pre-commit-check = pre-commit-hooks.lib.${system}.run {
+          src = ./.;
+          hooks = {
+            alejandra.enable = true;
+            trim-trailing-whitespace.enable = true;
+            # pre-commit-ensure-sops;
+            taplo.enable = true;
+          };
+          configPath = ".pre-commit-config-nix.yaml";
+        };
         # Compilation and importing should be enough testing for this package
         # Run tests with cargo-nextest
         # Consider setting `doCheck = false` on `my-crate` if you do not want
@@ -143,10 +158,18 @@
         drv = sshbind;
       };
 
+      overlays.default = overlay;
       formatter = pkgs.alejandra;
+
+      devShells.test = pkgs.mkShell {
+        packages = [
+          (pkgs.python3.withPackages (ps: [ps.sshbind]))
+        ];
+      };
 
       devShells.default = craneLib.devShell {
         # Inherit inputs from checks.
+        inherit (self.checks.${system}.pre-commit-check) shellHook;
         checks = self.checks.${system};
 
         LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.openssl];
@@ -155,16 +178,14 @@
 
         # Extra inputs can be added here; cargo and rustc are provided by default.
         packages = [
-          self.packages.${system}.default
-          pkgs.python3
-          (pkgs.poetry.override {python3 = pkgs.python3;})
+          (pkgs.python3.withPackages (ps: [ps.sshbind]))
           pkgs.openssl
           pkgs.sops
-          pkgs.pre-commit-hook-ensure-sops
+          # pkgs.pre-commit-hook-ensure-sops
           pkgs.age
           pkgs.statix
           pkgs.maturin
-	  pkgs.perl
+          pkgs.perl
           # pkgs.ripgrep
         ];
       };

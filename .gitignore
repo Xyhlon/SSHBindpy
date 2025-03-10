@@ -74,3 +74,4 @@ docs/_build/
 # flake.nix stuff
 .direnv
 result
+.pre-commit-config-nix.yaml
