@@ -21,6 +21,7 @@ fn bind(
     debug: bool,
 ) -> PyResult<()> {
     if debug {
+        #[allow(clippy::let_unit_value)]
         let _ = *LOGGER; // Ensure logger is initialized
     }
     rs_bind(addr, jump_hosts, remote_addr, sopsfile);

@@ -64,7 +64,7 @@
             pkgs.libiconv
           ];
 
-        nativeBuildInputs = with pkgs; [sops libiconv pkg-config perl];
+        nativeBuildInputs = with pkgs; [sops libiconv pkg-config perl python3];
         # Additional environment variables can be set directly
         LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.openssl];
       };
