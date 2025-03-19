@@ -129,9 +129,21 @@
         pre-commit-check = pre-commit-hooks.lib.${system}.run {
           src = ./.;
           hooks = {
-            alejandra.enable = true;
+            check-case-conflicts.enable = true;
+            check-executables-have-shebangs.enable = true;
+            check-merge-conflicts.enable = true;
+            check-shebang-scripts-are-executable.enable = true;
+            check-toml.enable = true;
+            check-yaml.enable = true;
+            detect-private-keys.enable = true;
+            end-of-file-fixer.enable = true;
+            mixed-line-endings.enable = true;
             trim-trailing-whitespace.enable = true;
-            # pre-commit-ensure-sops;
+            alejandra.enable = true;
+            black.enable = true;
+            mdformat.enable = true;
+            isort.enable = true;
+            pre-commit-hook-ensure-sops.enable = true;
             taplo.enable = true;
           };
           configPath = ".pre-commit-config-nix.yaml";
@@ -181,7 +193,6 @@
           (pkgs.python3.withPackages (ps: [ps.sshbind]))
           pkgs.openssl
           pkgs.sops
-          # pkgs.pre-commit-hook-ensure-sops
           pkgs.age
           pkgs.statix
           pkgs.maturin
