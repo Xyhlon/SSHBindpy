@@ -1,17 +1,20 @@
 # SSHBindpy Python Wrapper
 
-**SSHBindpy** is a Python wrapper for the [SSHBind](https://github.com/Xyhlon/SSHBind) Rust library. It provides a Pythonic interface to bind remote services—located behind multiple SSH jump hosts—to a local socket. The package exports a single context manager: **SSHBinding**.
+**SSHBindpy** is a Python wrapper for the [SSHBind](https://github.com/Xyhlon/SSHBind)
+Rust library. It provides a Pythonic interface to bind remote services—located behind
+multiple SSH jump hosts—to a local socket. The package exports a single context manager:
+**SSHBinding**.
 
 ## Features
 
-- **Single Public API:**
-  Only the `SSHBinding` context manager is exposed. All internal functionality (i.e. the underlying `bind` and `unbind` functions) is hidden.
-- **Automatic Resource Management:**
-  The context manager binds a remote service upon entering the context and unbinds it upon exit.
-- **Secure Credential Handling:**
-  Uses SOPS-encrypted YAML files for secure and reproducible credential management.
-- **Rust-Powered Efficiency:**
-  Leverages the performance and reliability of the SSHBind Rust library.
+- **Single Public API:** Only the `SSHBinding` context manager is exposed. All internal
+  functionality (i.e. the underlying `bind` and `unbind` functions) is hidden.
+- **Automatic Resource Management:** The context manager binds a remote service upon
+  entering the context and unbinds it upon exit.
+- **Secure Credential Handling:** Uses SOPS-encrypted YAML files for secure and
+  reproducible credential management.
+- **Rust-Powered Efficiency:** Leverages the performance and reliability of the SSHBind
+  Rust library.
 
 ## System Requirements
 
@@ -20,7 +23,8 @@ Before using SSHBindpy, ensure your system meets the following prerequisites:
 - **OpenSSL:** Provides necessary cryptographic functions.
 - **SOPS:** Required for decrypting encrypted YAML credential files.
 - **Python:** Version 3.8 or later.
-- **Rust Toolchain (Optional):** Necessary for building the Rust extension (install via [rustup](https://rustup.rs/)).
+- **Rust Toolchain (Optional):** Necessary for building the Rust extension (install via
+  [rustup](https://rustup.rs/)).
 - **Nix/direnv (Optional):** For reproducible development environments.
 
 ## Installation
@@ -40,27 +44,33 @@ pip install sshbind
    cd SSHBindpy
    ```
 
-2. **Build the Package:**
+1. **Build the Package:**
 
    With maturin:
+
    ```bash
    maturin build --release
    ```
+
    Or using Nix:
+
    ```bash
    nix build
    ```
 
-3. **Install the Built Wheel:**
+1. **Install the Built Wheel:**
 
    Locate the wheel in the `target/wheels/` directory and install it:
+
    ```bash
    pip install target/wheels/sshbind-*.whl
    ```
 
 ## Usage
 
-sshbind exports a single context manager: `SSHBinding`. Use it to bind a remote service to a local socket. The context manager automatically calls the underlying Rust functions to bind on entry and unbind on exit.
+sshbind exports a single context manager: `SSHBinding`. Use it to bind a remote service
+to a local socket. The context manager automatically calls the underlying Rust functions
+to bind on entry and unbind on exit.
 
 ```python
 from sshbind import SSHBinding
@@ -79,13 +89,16 @@ with SSHBinding("127.0.0.1:8000", ["jump1:22", "jump2:22"], "remote.service:80",
 For a reproducible development environment, you can use either Nix or direnv.
 
 - **With Nix:**
+
   ```bash
   nix develop
   ```
-  This command opens a shell with all necessary dependencies (Rust toolchain, OpenSSL, SOPS, etc.) preconfigured.
 
-- **With direnv:**
-  Create a `.envrc` file containing your environment variables and run:
+  This command opens a shell with all necessary dependencies (Rust toolchain, OpenSSL,
+  SOPS, etc.) preconfigured.
+
+- **With direnv:** Create a `.envrc` file containing your environment variables and run:
+
   ```bash
   direnv allow
   ```
@@ -96,7 +109,8 @@ If you choose not to use Nix, ensure you have the following installed:
 
 - **Rust Toolchain:** Install via [rustup](https://rustup.rs/).
 - **OpenSSL:** Install using your system’s package manager.
-- **SOPS:** Install from your package manager or [from source](https://github.com/mozilla/sops).
+- **SOPS:** Install from your package manager or
+  [from source](https://github.com/mozilla/sops).
 - **Maturin:** Install with pip:
   ```bash
   pip install maturin
@@ -137,13 +151,14 @@ Tag a commit and the CI will publish it.
 
 ## License
 
-SSHBindpy is licensed under the MIT License. See the LICENSE file for details. The underlying SSHBind library is also licensed under the MIT License.
+SSHBindpy is licensed under the MIT License. See the LICENSE file for details. The
+underlying SSHBind library is also licensed under the MIT License.
 
 ## Contributing
 
 Contributions are welcome! To contribute:
 
 1. Fork the repository.
-2. Create a new branch for your changes.
-3. Commit and push your changes.
-4. Open a pull request for review.
+1. Create a new branch for your changes.
+1. Commit and push your changes.
+1. Open a pull request for review.
