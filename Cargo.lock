@@ -975,6 +975,8 @@ dependencies = [
 name = "sshbind-wrapper-python"
 version = "0.0.1"
 dependencies = [
+ "env_logger",
+ "log",
  "openssl",
  "pyo3",
  "sshbind",
