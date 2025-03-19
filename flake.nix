@@ -170,7 +170,7 @@
         drv = sshbind;
       };
 
-      overlays.default = overlay;
+      overlays = overlay;
       formatter = pkgs.alejandra;
 
       devShells.test = pkgs.mkShell {
