@@ -38,7 +38,13 @@
     flake-utils.lib.eachDefaultSystem (system: let
       overlay = import ./overlay.nix;
 
-      pkgs = (nixpkgs.legacyPackages.${system}.extend statix.overlays.default).extend overlay;
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [
+          statix.overlays.default
+          overlay
+        ];
+      };
 
       inherit (pkgs) lib;
 
