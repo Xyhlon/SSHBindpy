@@ -10,14 +10,14 @@
 }:
 buildPythonPackage rec {
   pname = "sshbind";
-  version = "0.0.2";
+  version = "0.0.3";
   pyproject = true;
 
   src = ./.;
 
   cargoDeps = rustPlatform.fetchCargoVendor {
     inherit pname version src;
-    hash = "sha256-vGh7Fdb3GiGkuLKSbDad7m1zgH9AazvJfIRq+2xd/OU=";
+    hash = "sha256-5QyvJRGU6nOJIhmvQxRgrd6KiZNhwo2iPOeKBGEhjGE=";
   };
 
   nativeBuildInputs = with rustPlatform; [cargoSetupHook maturinBuildHook] ++ [openssl pkg-config perl];

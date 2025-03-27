@@ -6,4 +6,5 @@ allow = [
   "Unicode-3.0",
   "CECILL-C",
   "Apache-2.0 WITH LLVM-exception",
+  "MPL-2.0",
 ]

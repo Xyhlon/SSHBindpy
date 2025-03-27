@@ -1,7 +1,9 @@
+cargo-features = ["edition2024"]
+
 [package]
 name = "sshbind-wrapper-python"
-version = "0.0.2"
-edition = "2021"
+version = "0.0.3"
+edition = "2024"
 license = "MIT"
 authors = ["Maximilian Philipp <maxkon2000@gmail.com>"]
 readme = "README.md"
@@ -17,5 +19,5 @@ crate-type = ["cdylib"]
 log = "0.4.26"
 env_logger = "0.11.6"
 pyo3 = "0.23.3"
-sshbind = "0.0.1"
+sshbind = "0.0.2"
 openssl = { version = "0.10", features = ["vendored"] }
