@@ -13,18 +13,20 @@ static LOGGER: LazyLock<()> = LazyLock::new(|| {
 });
 
 #[pyfunction]
+#[pyo3(signature = (addr, jump_hosts, sopsfile, remote_addr=None, cmd=None, debug=None))]
 fn bind(
     addr: &str,
     jump_hosts: Vec<String>,
-    remote_addr: &str,
     sopsfile: &str,
-    debug: bool,
+    remote_addr: Option<String>,
+    cmd: Option<String>,
+    debug: Option<bool>,
 ) -> PyResult<()> {
-    if debug {
+    if let Some(true) = debug {
         #[allow(clippy::let_unit_value)]
         let _ = *LOGGER; // Ensure logger is initialized
     }
-    rs_bind(addr, jump_hosts, remote_addr, sopsfile);
+    rs_bind(addr, jump_hosts, remote_addr, sopsfile, cmd);
     Ok(())
 }
 

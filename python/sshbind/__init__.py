@@ -17,9 +17,10 @@ class SSHBinding(_AbstractContextManager, _ContextDecorator):
         self,
         addr: str,
         jump_hosts: _List[str],
-        remote_addr: str,
         sopsfile: str,
-        debug=False,
+        remote_addr: str | None = None,
+        cmd: str | None = None,
+        debug: str | None = False,
     ):
         self.addr = addr
         self.jump_hosts = jump_hosts
@@ -27,10 +28,18 @@ class SSHBinding(_AbstractContextManager, _ContextDecorator):
         self.sopsfile = sopsfile
         self.bound = False
         self.debug = debug
+        self.cmd = cmd
 
     def __enter__(self):
         # Call the Rust function to bind the connection.
-        _bind(self.addr, self.jump_hosts, self.remote_addr, self.sopsfile, self.debug)
+        _bind(
+            addr=self.addr,
+            jump_hosts=self.jump_hosts,
+            sopsfile=self.sopsfile,
+            remote_addr=self.remote_addr,
+            cmd=self.cmd,
+            debug=self.debug,
+        )
         self.bound = True
         return self
 
