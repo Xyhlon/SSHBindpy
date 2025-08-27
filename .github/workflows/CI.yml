@@ -50,9 +50,9 @@ jobs:
           manylinux: auto
           before-script-linux: |
             if command -v apt-get &> /dev/null; then
-                apt-get update && apt-get install perl libssl-dev libatomic-ops-dev -y
+                apt-get update && apt-get install pkg-config perl libssl-dev libatomic-ops-dev -y
             elif command -v yum &> /dev/null; then
-                yum install openssl-devel devtoolset-10-libatomic-devel perl-IPC-Cmd -y
+                yum install pkgconfig openssl-devel devtoolset-10-libatomic-devel perl-IPC-Cmd -y
             else
                 echo "Neither apt-get nor yum is installed. Please install a package manager."
                 exit 1
@@ -88,6 +88,14 @@ jobs:
           args: --release --out dist --find-interpreter
           sccache: 'true'
           manylinux: musllinux_1_2
+          before-script-linux: |
+            if command -v apk &> /dev/null; then
+                apk add --no-cache perl pkgconfig openssl-dev
+            elif command -v apt-get &> /dev/null; then
+                apt-get update && apt-get install pkg-config perl libssl-dev -y
+            elif command -v yum &> /dev/null; then
+                yum install pkgconfig openssl-devel perl-IPC-Cmd -y
+            fi
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
