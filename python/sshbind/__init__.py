@@ -20,7 +20,7 @@ class SSHBinding(_AbstractContextManager, _ContextDecorator):
         sopsfile: str,
         remote_addr: str | None = None,
         cmd: str | None = None,
-        debug: str | None = False,
+        debug: bool | None = False,
     ):
         self.addr = addr
         self.jump_hosts = jump_hosts
