@@ -1,6 +1,7 @@
 # from ._lib_name import bind, unbind
 from contextlib import AbstractContextManager as _AbstractContextManager
 from contextlib import ContextDecorator as _ContextDecorator
+from pathlib import Path
 from typing import List as _List
 
 from ._lib_sshbind_wrapper import bind as _bind
@@ -17,7 +18,7 @@ class SSHBinding(_AbstractContextManager, _ContextDecorator):
         self,
         addr: str,
         jump_hosts: _List[str],
-        sopsfile: str,
+        sopsfile: Path,
         remote_addr: str | None = None,
         cmd: str | None = None,
         debug: bool | None = False,
@@ -25,7 +26,7 @@ class SSHBinding(_AbstractContextManager, _ContextDecorator):
         self.addr = addr
         self.jump_hosts = jump_hosts
         self.remote_addr = remote_addr
-        self.sopsfile = sopsfile
+        self.sopsfile = str(sopsfile)
         self.bound = False
         self.debug = debug
         self.cmd = cmd
